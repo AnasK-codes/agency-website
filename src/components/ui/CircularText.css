@@ -1,0 +1,27 @@
+.circular-text {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 120px;
+  position: relative;
+  height: 120px;
+  font-weight: bold;
+  color: #14B8A6; /* Obsidian Ember teal */
+  text-align: center;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+  font-family: var(--font-ibm-plex-mono), monospace;
+}
+
+.circular-text span {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+  text-transform: uppercase;
+}
