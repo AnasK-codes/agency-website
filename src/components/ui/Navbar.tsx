@@ -34,51 +34,50 @@ export function Navbar() {
       ref={navRef}
       className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl mx-auto flex items-center justify-between px-6 py-4 rounded-full border border-white/10 bg-[#080807]/60 backdrop-blur-lg shadow-2xl"
     >
-      {/* Logo */}
-      <div
-        className="flex items-center gap-2 font-bold tracking-[-0.04em] text-lg"
-        style={{ color: "#F5F0EB", fontFamily: "var(--font-space-grotesk)" }}
-      >
-        <Sparkle
-          weight="fill"
-          className="w-5 h-5"
-          style={{ color: "#FF4D00" }}
-        />
-        <span>SICKN33</span>
+      {/* Logo Container */}
+      <div className="flex-1 flex items-center">
+        <div
+          className="flex items-center gap-2 font-bold tracking-[-0.04em] text-lg"
+          style={{ color: "#F5F0EB", fontFamily: "var(--font-space-grotesk)" }}
+        >
+          <Sparkle
+            weight="fill"
+            className="w-5 h-5"
+            style={{ color: "#FF4D00" }}
+          />
+          <span>SICKN33</span>
+        </div>
       </div>
 
       {/* Nav links */}
       <div
-        className="hidden md:flex items-center gap-10 text-sm font-medium tracking-wide"
+        className="hidden md:flex items-center justify-center gap-10 text-sm font-medium tracking-wide"
         style={{ color: "#A09890", fontFamily: "var(--font-dm-sans)" }}
       >
-        {(["Work", "Studio", "Services"] as const).map((label) => (
-          <Link
+        {(["Philosophy", "Work", "Services"] as const).map((label) => (
+          <a
             key={label}
             href={`#${label.toLowerCase()}`}
+            onClick={(e) => {
+              e.preventDefault();
+              const target = document.querySelector(`#${label.toLowerCase()}`);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
             style={{ color: "inherit" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F0EB")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "#A09890")}
-            className="transition-colors duration-300"
+            className="transition-colors duration-300 relative group"
           >
             {label}
-          </Link>
+            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-[#FF4D00] transition-all duration-300 group-hover:w-full" />
+          </a>
         ))}
       </div>
 
-      {/* CTA */}
-      <MagneticButton
-        intensity={0.2}
-        className="px-6 py-2.5 text-sm font-semibold rounded-full cursor-none"
-        style={{
-          fontFamily: "var(--font-space-grotesk)",
-          background: "#FF4D00",
-          color: "#F5F0EB",
-          boxShadow: "0 0 22px rgba(255, 77, 0, 0.45)",
-        }}
-      >
-        Start Project
-      </MagneticButton>
+      {/* Right spacer for centering */}
+      <div className="flex-1 hidden md:block" />
     </nav>
   );
 }

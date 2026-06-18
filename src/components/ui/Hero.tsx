@@ -25,9 +25,9 @@ const containerVariants: Variants = {
 };
 
 const lineVariants: Variants = {
-  hidden: { clipPath: "inset(100% 0 0 0)", y: 40 },
+  hidden: { clipPath: "inset(100% 0 -20% 0)", y: 40 },
   visible: {
-    clipPath: "inset(0% 0 0 0)",
+    clipPath: "inset(0% 0 -20% 0)",
     y: 0,
     transition: { type: "spring", stiffness: 75, damping: 16 },
   },
@@ -131,10 +131,10 @@ export function Hero() {
             animate="visible"
             className="flex flex-col mb-10"
           >
-            <div className="overflow-hidden pb-4">
+            <div className="overflow-hidden pb-4 pt-2">
               <motion.h1
                 variants={lineVariants}
-                className="text-[clamp(3.5rem,9vw,9rem)] font-bold leading-[0.86] tracking-[-0.055em] pb-2"
+                className="text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
                 style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}
               >
                 We Engineer
@@ -143,7 +143,7 @@ export function Hero() {
             <div className="overflow-hidden pb-4">
               <motion.h1
                 variants={lineVariants}
-                className="text-[clamp(3.5rem,9vw,9rem)] font-bold leading-[0.86] tracking-[-0.055em] pb-2"
+                className="text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
                 style={{ fontFamily: "var(--font-space-grotesk)" }}
               >
                 <ShinyText

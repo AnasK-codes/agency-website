@@ -7,6 +7,7 @@ import { Work } from "@/components/ui/Work";
 import { Services } from "@/components/ui/Services";
 import { Footer } from "@/components/ui/Footer";
 import { Loader } from "@/components/ui/Loader";
+import { CTA } from "@/components/ui/CTA";
 
 export default function Home() {
   return (
@@ -33,6 +34,9 @@ export default function Home() {
 
       {/* Services Bento Grid */}
       <Services />
+
+      {/* Massive CTA Section */}
+      <CTA />
 
       {/* Footer */}
       <Footer />

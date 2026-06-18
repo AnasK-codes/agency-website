@@ -44,6 +44,7 @@ export function Philosophy() {
   return (
     <section
       ref={containerRef}
+      id="philosophy"
       className="min-h-[100dvh] px-6 md:px-16 lg:px-24 w-full flex justify-center items-center"
     >
       <div className="max-w-[1560px] w-full mx-auto">
