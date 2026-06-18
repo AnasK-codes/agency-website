@@ -11,7 +11,7 @@ import { CTA } from "@/components/ui/CTA";
 
 export default function Home() {
   return (
-    <main className="w-full min-h-[100dvh] overflow-x-hidden" style={{ background: "#080807" }}>
+    <main className="w-full min-h-[100dvh] overflow-x-clip" style={{ background: "#080807" }}>
       {/* Initial GSAP Splash Loader */}
       <Loader />
       {/* Global Navigation */}

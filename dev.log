@@ -1,0 +1,17 @@
+
+> agency-website@0.1.0 dev
+> next dev -p 3001
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.43.161:3001
+✓ Ready in 177ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          9253
+- Dir:          /Users/anaskhan/Documents/GitHub/agency-website
+- Log:          .next/dev/logs/next-development.log
+
+Run kill 9253 to stop it.
+[?25h

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import { gsap } from "@/lib/gsapConfig";
 
 // ── Canvas-based particle system ─────────────────────────────────────────────
 // Drawing to a canvas never forces layout/reflow. One composited layer,
@@ -176,7 +176,9 @@ export function CustomCursor() {
   return (
     <>
       <style dangerouslySetInnerHTML={{
-        __html: `*, a, button, input, [role='button'] { cursor: none !important; }`
+        __html: `@media (hover: hover) and (pointer: fine) {
+          *, a, button, input, [role='button'] { cursor: none !important; }
+        }`
       }} />
 
       {/* Particle canvas — one composited layer, never causes reflow */}

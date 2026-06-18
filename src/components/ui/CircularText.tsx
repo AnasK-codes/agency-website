@@ -93,8 +93,8 @@ const CircularText = ({ text = '', spinDuration = 20, onHover = 'speedUp', class
       style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
       animate={controls}
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
+      onHoverStart={handleHoverStart}
+      onHoverEnd={handleHoverEnd}
     >
       {letters.map((letter, i) => {
         const rotationDeg = (360 / letters.length) * i;

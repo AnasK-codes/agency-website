@@ -1,13 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 const philosophyText =
   "We do not build templates. We engineer digital experiences that defy the generic, utilizing advanced mathematics, physics, and design engineering to elevate brands into a completely different stratosphere of the internet.";
@@ -20,25 +14,47 @@ export function Philosophy() {
     if (!textRef.current || !containerRef.current) return;
     
     const words = textRef.current.querySelectorAll(".word-reveal");
+    const mm = gsap.matchMedia();
 
-    // Pin the container and scrub the word colors
-    gsap.fromTo(
-      words,
-      { color: "rgba(245, 240, 235, 0.1)" },
-      {
-        color: "#F5F0EB",
-        ease: "none",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=150%",
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1, // reserves space before pin fires → fixes CLS
-        },
-      }
-    );
+    // Desktop: pinned word-by-word reveal
+    mm.add("(min-width: 768px)", () => {
+      gsap.fromTo(
+        words,
+        { color: "rgba(245, 240, 235, 0.1)" },
+        {
+          color: "#F5F0EB",
+          ease: "none",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "+=150%",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+          },
+        }
+      );
+    });
+
+    // Mobile: simpler scroll-reveal without pinning — no trapped scroll
+    mm.add("(max-width: 767px)", () => {
+      gsap.fromTo(
+        words,
+        { color: "rgba(245, 240, 235, 0.1)" },
+        {
+          color: "#F5F0EB",
+          ease: "none",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 70%",
+            end: "bottom 30%",
+            scrub: 1,
+          },
+        }
+      );
+    });
   }, { scope: containerRef });
 
   return (

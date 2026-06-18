@@ -1,7 +1,6 @@
 "use client";
 
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { useRef } from "react";
 
 export function Loader() {

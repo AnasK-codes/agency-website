@@ -140,7 +140,8 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      // Phase 5: cap DPR to 1 on mobile to reduce fill rate — decorative only
+      dpr: Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1 : 2)
     });
 
     const gl = renderer.gl;

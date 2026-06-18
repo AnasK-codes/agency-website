@@ -2,14 +2,8 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Sparkle, Palette, Code } from "@phosphor-icons/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 import Image from "next/image";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const services = [
   {
@@ -47,6 +41,11 @@ export function Services() {
   const [activeService, setActiveService] = useState<typeof services[0] | null>(null);
 
   useEffect(() => {
+    // H-02: Only attach mousemove on devices with a fine pointer
+    const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const container = containerRef.current;
+    if (!hasHover || !container) return;
+
     const xTo = gsap.quickTo(imageWrapperRef.current, "x", { duration: 0.5, ease: "power3" });
     const yTo = gsap.quickTo(imageWrapperRef.current, "y", { duration: 0.5, ease: "power3" });
 
@@ -55,8 +54,8 @@ export function Services() {
       yTo(e.clientY);
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    return () => window.removeEventListener("mousemove", onMouseMove);
+    container.addEventListener("mousemove", onMouseMove, { passive: true });
+    return () => container.removeEventListener("mousemove", onMouseMove);
   }, []);
 
   useGSAP(() => {
@@ -76,6 +75,11 @@ export function Services() {
       }
     );
   }, { scope: containerRef });
+
+  // H-02: Check if device supports hover for service item handlers
+  const hasHoverCapability = typeof window !== "undefined"
+    ? window.matchMedia("(hover: hover)").matches
+    : true;
 
   return (
     <section
@@ -113,10 +117,12 @@ export function Services() {
               className="service-item group relative pt-8 border-t cursor-none transition-all duration-500"
               style={{ borderColor: "rgba(255, 77, 0, 0.1)" }}
               onMouseEnter={(e) => {
+                if (!hasHoverCapability) return;
                 setActiveService(service);
                 (e.currentTarget as HTMLElement).style.borderColor = service.hoverBorderColor;
               }}
               onMouseLeave={(e) => {
+                if (!hasHoverCapability) return;
                 setActiveService(null);
                 (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 77, 0, 0.1)";
               }}

@@ -50,9 +50,20 @@
 
   html {
     @apply font-sans;
-    cursor: none;
     /* Lenis controls scroll; native scroll-behavior would conflict */
     scroll-behavior: auto !important;
+  }
+
+  /* Only hide cursor on devices with a fine pointer (mouse/trackpad) */
+  @media (hover: hover) and (pointer: fine) {
+    html {
+      cursor: none;
+    }
+  }
+
+  /* Prevent horizontal scroll leak from blobs and off-screen animations */
+  body {
+    overflow-x: hidden;
   }
 }
 
@@ -64,6 +75,13 @@
   pointer-events: none;
   background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
   opacity: 0.05;
+}
+
+/* M-06: Noise overlay is invisible at 0.05 on small screens — kill GPU cost */
+@media (max-width: 768px) {
+  .noise-overlay {
+    display: none;
+  }
 }
 
 /* ── Glassmorphism Panel ── */
@@ -105,10 +123,49 @@
   animation: ember-breathe 26s ease-in-out infinite alternate-reverse;
 }
 
+/* C-03: Scale blobs for mobile to prevent overflow + reduce GPU cost */
+@media (max-width: 768px) {
+  .void-blob--ember {
+    width: 400px;
+    height: 400px;
+    top: -120px;
+    right: -120px;
+    filter: blur(50px);
+  }
+  .void-blob--warm {
+    width: 500px;
+    height: 500px;
+    bottom: -200px;
+    left: -160px;
+    filter: blur(60px);
+  }
+}
+
 @keyframes ember-breathe {
   0%   { transform: translate(0, 0) scale(1); opacity: 0.8; }
   40%  { transform: translate(30px, -25px) scale(1.06); opacity: 1; }
   100% { transform: translate(-15px, 40px) scale(0.94); opacity: 0.7; }
+}
+
+/* ── H-04: CSS-only nav hover — no JS stickiness on touch ── */
+@media (hover: hover) {
+  .nav-link:hover {
+    color: #F5F0EB !important;
+  }
+}
+
+/* ── H-07 + L-03: Touch device overrides for group-hover patterns ── */
+/* On touch devices, show overlays immediately instead of requiring double-tap */
+@media (hover: none) {
+  /* Work project overlay — always visible on touch */
+  .work-overlay {
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .work-overlay-text {
+    transform: translateY(0) !important;
+  }
 }
 
 /* ── Gradient Text Utility ── */

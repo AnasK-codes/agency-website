@@ -2,13 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 const projects = [
   {
@@ -38,31 +32,70 @@ export function Work() {
 
   useGSAP(
     () => {
-      const panels = gsap.utils.toArray(".work-panel");
+      const mm = gsap.matchMedia();
 
-      gsap.to(panels, {
-        xPercent: -100 * (panels.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1, // prevents CLS from the spacer div insertion
-          end: () => `+=${window.innerWidth * (panels.length - 1)}`,
-        },
-      });
+      // Desktop: horizontal scroll gallery
+      mm.add("(min-width: 768px)", () => {
+        // Set horizontal width only on desktop
+        gsap.set(containerRef.current, {
+          width: `${projects.length * 100}vw`,
+        });
 
-      panels.forEach((panel: any) => {
-        const img = panel.querySelector(".parallax-img");
-        gsap.to(img, {
-          xPercent: 20,
+        gsap.to(containerRef.current, {
+          x: () => -(containerRef.current!.scrollWidth - window.innerWidth),
           ease: "none",
+          willChange: "transform",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${window.innerWidth * (panels.length - 1)}`,
-            scrub: 1,
+            pin: true,
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+            end: () =>
+              `+=${containerRef.current!.scrollWidth - window.innerWidth}`,
           },
+        });
+
+        // Parallax images — desktop only
+        const panels = gsap.utils.toArray(".work-panel");
+        panels.forEach((panel: any) => {
+          const img = panel.querySelector(".parallax-img");
+          if (!img) return;
+          gsap.to(img, {
+            xPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              invalidateOnRefresh: true,
+              end: () =>
+                `+=${containerRef.current!.scrollWidth - window.innerWidth}`,
+              scrub: true,
+            },
+          });
+        });
+      });
+
+      // Mobile: vertical stack with fade-in
+      mm.add("(max-width: 767px)", () => {
+        // Reset any width set by desktop context
+        gsap.set(containerRef.current, { width: "auto", x: 0 });
+
+        const panels = gsap.utils.toArray(".work-panel");
+        panels.forEach((panel: any) => {
+          gsap.fromTo(
+            panel,
+            { opacity: 0.3, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              scrollTrigger: {
+                trigger: panel,
+                start: "top 85%",
+                end: "top 55%",
+                scrub: true,
+              },
+            },
+          );
         });
       });
     },
@@ -73,11 +106,11 @@ export function Work() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative h-[100dvh] w-full overflow-hidden flex items-center"
+      className="relative w-full overflow-hidden flex flex-col md:h-[100dvh]"
       style={{ background: "#080807" }}
     >
-      {/* Section header */}
-      <div className="absolute top-24 left-6 md:left-16 lg:left-24 z-10 pointer-events-none">
+      {/* Section header — in normal flow, flex-shrink-0 */}
+      <div className="flex-shrink-0 px-6 md:px-16 lg:px-24 pt-8 pb-4 pointer-events-none">
         <div className="flex items-center gap-3 mb-3">
           <span className="w-8 h-[1px]" style={{ background: "#FF4D00" }} />
           <span
@@ -98,16 +131,16 @@ export function Work() {
         </h2>
       </div>
 
+      {/* Scroll container — horizontal on md+, vertical stack on mobile */}
       <div
         ref={containerRef}
-        className="flex h-full"
-        style={{ width: `${projects.length * 100}vw` }}
+        className="flex flex-col md:flex-row flex-1"
       >
         {projects.map((project, index) => {
           const content = (
             <>
               <div
-                className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden magnetic-target group-hover:shadow-[0_32px_80px_-20px_rgba(255,77,0,0.3)] transition-shadow duration-500"
+                className="relative w-full max-w-4xl h-[50dvh] md:h-[55dvh] max-h-[600px] rounded-2xl overflow-hidden magnetic-target group-hover:shadow-[0_32px_80px_-20px_rgba(255,77,0,0.3)] transition-shadow duration-500"
                 style={{
                   border: "1px solid rgba(255, 77, 0, 0.14)",
                   boxShadow: "0 32px 80px -20px rgba(255, 77, 0, 0.12)",
@@ -119,12 +152,12 @@ export function Work() {
                     alt={project.title}
                     fill
                     className="object-cover"
-                    priority={index === 0}
+                    priority={true}
                   />
                 </div>
                 {project.url && (
-                  <div className="absolute inset-0 bg-[#080807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
-                    <div className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-black/40 text-[#F5F0EB] font-medium tracking-wide transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                <div className="work-overlay absolute inset-0 bg-[#080807]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                  <div className="work-overlay-text flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-black/40 text-[#F5F0EB] font-medium tracking-wide transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                       <span>View Project</span>
                       <svg
                         width="16"
@@ -146,7 +179,7 @@ export function Work() {
                 )}
               </div>
 
-              <div className="w-full max-w-5xl mt-8 flex justify-between items-start">
+              <div className="w-full max-w-4xl mt-8 flex justify-between items-start">
                 <h3
                   className="text-3xl md:text-5xl font-bold tracking-[-0.05em] transition-colors duration-500 group-hover:text-[#FF4D00]"
                   style={{
@@ -183,7 +216,7 @@ export function Work() {
           return (
             <div
               key={index}
-              className="work-panel w-[100vw] h-full flex flex-col justify-center items-center px-6 md:px-16 lg:px-24"
+              className="work-panel w-full md:w-[100vw] py-12 md:py-0 md:h-full flex flex-col justify-center items-center px-6 md:px-16 lg:px-24"
             >
               {project.url ? (
                 <a
@@ -206,3 +239,4 @@ export function Work() {
     </section>
   );
 }
+

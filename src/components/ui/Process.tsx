@@ -1,13 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 const steps = [
   {
@@ -32,26 +26,30 @@ export function Process() {
   const leftColRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    ScrollTrigger.create({
-      trigger: processRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      pin: leftColRef.current,
-      pinSpacing: false,
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      ScrollTrigger.create({
+        trigger: processRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: leftColRef.current,
+        pinSpacing: false,
+      });
     });
 
     const stepEls = gsap.utils.toArray(".process-step");
     stepEls.forEach((step: any) => {
       gsap.fromTo(
         step,
-        { opacity: 0.15, x: 60 },
+        { opacity: 0.15, xPercent: 8 },
         {
           opacity: 1,
-          x: 0,
+          xPercent: 0,
           scrollTrigger: {
             trigger: step,
-            start: "top 65%",
-            end: "top 40%",
+            start: "top 75%",
+            end: "top 50%",
             scrub: true,
           },
         }
@@ -66,7 +64,7 @@ export function Process() {
     >
       {/* Sticky left heading */}
       <div
-        className="w-full md:w-1/2 h-[50vh] md:h-[100vh] flex flex-col justify-center items-start"
+        className="w-full md:w-1/2 h-[50dvh] md:h-[100dvh] flex flex-col justify-center items-start"
         ref={leftColRef}
       >
         <div className="flex items-center gap-3 mb-8">
@@ -94,7 +92,7 @@ export function Process() {
       </div>
 
       {/* Scrolling steps */}
-      <div className="w-full md:w-1/2 flex flex-col gap-40 md:pt-[50vh] pb-[20vh] md:pb-[50vh]">
+      <div className="w-full md:w-1/2 flex flex-col gap-[45vh] md:pt-[50vh] pb-[20vh] md:pb-[50vh]">
         {steps.map((step) => (
           <div key={step.number} className="process-step flex flex-col gap-5">
             <span

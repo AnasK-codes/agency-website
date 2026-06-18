@@ -1,15 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 import { MagneticButton } from "./MagneticButton";
 import { ArrowUpRight } from "@phosphor-icons/react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export function CTA() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -96,7 +90,7 @@ export function CTA() {
             <MagneticButton
               intensity={0.3}
               onClick={handleSend}
-              className="group flex items-center gap-3 px-10 py-5 rounded-full text-lg font-bold cursor-none"
+              className="group px-10 py-5 rounded-full text-lg font-bold cursor-none"
               style={{
                 fontFamily: "var(--font-space-grotesk)",
                 background: "#FF4D00",
@@ -104,11 +98,13 @@ export function CTA() {
                 boxShadow: "0 0 40px rgba(255, 77, 0, 0.3)",
               }}
             >
-              <span>Send via WhatsApp</span>
-              <ArrowUpRight
-                weight="bold"
-                className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-              />
+              <div className="flex items-center justify-center gap-3">
+                <span>Send via WhatsApp</span>
+                <ArrowUpRight
+                  weight="bold"
+                  className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-active:translate-x-1 group-active:-translate-y-1"
+                />
+              </div>
             </MagneticButton>
           </div>
         </div>

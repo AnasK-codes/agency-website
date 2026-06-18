@@ -3,33 +3,50 @@
 import { useRef } from "react";
 import { EnvelopeSimple } from "@phosphor-icons/react";
 import { MagneticButton } from "./MagneticButton";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.fromTo(
-      textRef.current,
-      { y: 180 },
-      {
-        y: -60,
-        ease: "none",
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      }
-    );
+    const mm = gsap.matchMedia();
+
+    // Desktop: full parallax range
+    mm.add("(min-width: 768px)", () => {
+      gsap.fromTo(
+        textRef.current,
+        { y: 180 },
+        {
+          y: -60,
+          ease: "none",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        }
+      );
+    });
+
+    // Mobile: subtler parallax
+    mm.add("(max-width: 767px)", () => {
+      gsap.fromTo(
+        textRef.current,
+        { y: 60 },
+        {
+          y: -20,
+          ease: "none",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        }
+      );
+    });
   }, { scope: footerRef });
 
   return (
@@ -97,10 +114,10 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Parallax background wordmark */}
+      {/* Parallax background wordmark — clamped for ultrawide */}
       <div
         ref={textRef}
-        className="absolute top-[25%] left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none select-none text-[14vw] font-bold tracking-[-0.055em]"
+        className="absolute top-[25%] left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none select-none text-[clamp(2.5rem,14vw,30rem)] font-bold tracking-[-0.055em]"
         style={{
           fontFamily: "var(--font-space-grotesk)",
           color: "rgba(255, 77, 0, 0.04)",

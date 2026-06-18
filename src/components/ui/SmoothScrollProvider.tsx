@@ -2,12 +2,10 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
 
 export function SmoothScrollProvider() {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
       duration: 0.9,
@@ -29,10 +27,19 @@ export function SmoothScrollProvider() {
     gsap.ticker.add(rafFn);
     gsap.ticker.lagSmoothing(0);
 
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof document !== "undefined") {
+      resizeObserver = new ResizeObserver(() => {
+        ScrollTrigger.refresh();
+      });
+      resizeObserver.observe(document.body);
+    }
+
     return () => {
       lenis.off("scroll", ScrollTrigger.update);
       gsap.ticker.remove(rafFn);
       lenis.destroy();
+      if (resizeObserver) resizeObserver.disconnect();
     };
   }, []);
 
