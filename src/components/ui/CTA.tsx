@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
-import { MagneticButton } from "./MagneticButton";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { MagneticButton } from "./MagneticButton";
 
 export function CTA() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,10 +29,12 @@ export function CTA() {
   }, { scope: containerRef });
 
   const handleSend = () => {
-    const phoneNumber = "917470655352"; // Assuming India country code +91 based on common usage, fallback to pure number if standard. Let's use 7470655352 directly. Wait, WhatsApp requires country code. If it's India, it's 91. I will use 917470655352.
+    if (!name.trim() || !message.trim()) return;
+    
+    const phoneNumber = "917470655352"; 
     const text = `Hi! I'm ${name}.\n\nHere are some details about my project:\n${message}`;
     const encodedText = encodeURIComponent(text);
-    window.open(`https://wa.me/917470655352?text=${encodedText}`, "_blank");
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, "_blank");
   };
 
   return (
@@ -81,6 +83,7 @@ export function CTA() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
+              maxLength={1000}
               className="w-full bg-transparent border-b border-white/10 px-0 py-4 text-xl md:text-2xl outline-none transition-colors duration-300 focus:border-[#FF4D00] placeholder:text-white/20 resize-none"
               style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}
             />

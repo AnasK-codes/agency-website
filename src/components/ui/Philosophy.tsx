@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 
 const philosophyText =
   "We do not build templates. We engineer digital experiences that defy the generic, utilizing advanced mathematics, physics, and design engineering to elevate brands into a completely different stratosphere of the internet.";
@@ -87,15 +87,18 @@ export function Philosophy() {
               fontFamily: "var(--font-space-grotesk)",
             }}
           >
-            {philosophyText.split(" ").map((word, i) => (
-              <span
-                key={i}
-                className="word-reveal"
-                style={{ color: "rgba(245, 240, 235, 0.1)" }}
-              >
-                {word}{" "}
-              </span>
-            ))}
+            <span className="sr-only">{philosophyText}</span>
+            <span aria-hidden="true">
+              {philosophyText.split(" ").map((word, i) => (
+                <span
+                  key={i}
+                  className="word-reveal"
+                  style={{ color: "rgba(245, 240, 235, 0.1)" }}
+                >
+                  {word}{" "}
+                </span>
+              ))}
+            </span>
           </p>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 
 const projects = [
   {
@@ -56,8 +56,8 @@ export function Work() {
         });
 
         // Parallax images — desktop only
-        const panels = gsap.utils.toArray(".work-panel");
-        panels.forEach((panel: any) => {
+        const panels = gsap.utils.toArray<HTMLElement>(".work-panel");
+        panels.forEach((panel) => {
           const img = panel.querySelector(".parallax-img");
           if (!img) return;
           gsap.to(img, {
@@ -80,8 +80,8 @@ export function Work() {
         // Reset any width set by desktop context
         gsap.set(containerRef.current, { width: "auto", x: 0 });
 
-        const panels = gsap.utils.toArray(".work-panel");
-        panels.forEach((panel: any) => {
+        const panels = gsap.utils.toArray<HTMLElement>(".work-panel");
+        panels.forEach((panel) => {
           gsap.fromTo(
             panel,
             { opacity: 0.3, y: 40 },
@@ -152,7 +152,7 @@ export function Work() {
                     alt={project.title}
                     fill
                     className="object-cover"
-                    priority={true}
+                    priority={index === 0}
                   />
                 </div>
                 {project.url && (

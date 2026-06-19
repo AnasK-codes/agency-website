@@ -38,6 +38,7 @@ const CircularText = ({ text = '', spinDuration = 20, onHover = 'speedUp', class
     controls.start({
       rotate: start + 360,
       scale: 1,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transition: getTransition(spinDuration, start) as any
     });
   }, [spinDuration, text, onHover, controls, rotation]);
@@ -46,6 +47,7 @@ const CircularText = ({ text = '', spinDuration = 20, onHover = 'speedUp', class
     const start = rotation.get();
     if (!onHover) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let transitionConfig: any;
     let scaleVal = 1;
 
@@ -83,6 +85,7 @@ const CircularText = ({ text = '', spinDuration = 20, onHover = 'speedUp', class
     controls.start({
       rotate: start + 360,
       scale: 1,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transition: getTransition(spinDuration, start) as any
     });
   };
@@ -96,19 +99,22 @@ const CircularText = ({ text = '', spinDuration = 20, onHover = 'speedUp', class
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
     >
-      {letters.map((letter, i) => {
-        const rotationDeg = (360 / letters.length) * i;
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {letters.map((letter, i) => {
+          const rotationDeg = (360 / letters.length) * i;
         const factor = Math.PI / letters.length;
         const x = factor * i;
         const y = factor * i;
         const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;
 
-        return (
-          <span key={i} style={{ transform, WebkitTransform: transform }}>
-            {letter}
-          </span>
-        );
-      })}
+          return (
+            <span key={i} style={{ transform, WebkitTransform: transform }}>
+              {letter}
+            </span>
+          );
+        })}
+      </span>
     </motion.div>
   );
 };

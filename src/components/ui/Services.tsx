@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Sparkle, Palette, Code } from "@phosphor-icons/react";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 import Image from "next/image";
 
 const services = [
@@ -39,8 +39,15 @@ export function Services() {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const [activeService, setActiveService] = useState<typeof services[0] | null>(null);
+  const [hasHoverCapability] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(hover: hover)").matches;
+    }
+    return true;
+  });
 
   useEffect(() => {
+
     // H-02: Only attach mousemove on devices with a fine pointer
     const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const container = containerRef.current;
@@ -75,11 +82,6 @@ export function Services() {
       }
     );
   }, { scope: containerRef });
-
-  // H-02: Check if device supports hover for service item handlers
-  const hasHoverCapability = typeof window !== "undefined"
-    ? window.matchMedia("(hover: hover)").matches
-    : true;
 
   return (
     <section
@@ -148,7 +150,7 @@ export function Services() {
                 className="text-xs uppercase tracking-[0.25em]"
                 style={{ fontFamily: "var(--font-ibm-plex-mono)", color: "#504840" }}
               >
-                {service.number} // {service.label}
+                {service.number} {"//"} {service.label}
               </div>
             </div>
           );
@@ -171,6 +173,7 @@ export function Services() {
             src={activeService.image}
             alt="Service preview"
             fill
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover"
           />
         )}

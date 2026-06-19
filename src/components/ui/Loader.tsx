@@ -12,11 +12,16 @@ export function Loader() {
   useGSAP(() => {
     document.body.style.overflow = "hidden";
 
+    // A11y: Prevent keyboard from tabbing into the hidden page content
+    const mainContent = document.querySelector("main");
+    if (mainContent) mainContent.inert = true;
+
     const tl = gsap.timeline({
       onComplete: () => {
         // Use "" to reset to stylesheet default rather than "auto",
         // which could conflict with Lenis's scroll management.
         document.body.style.overflow = "";
+        if (mainContent) mainContent.inert = false;
       },
     });
 

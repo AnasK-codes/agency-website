@@ -17,6 +17,12 @@ export function SmoothScrollProvider() {
       touchMultiplier: 1.2,
       infinite: false,
     });
+    
+    // Expose lenis instance to the window for programmatic scrolling in other components
+    if (typeof window !== "undefined") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).lenis = lenis;
+    }
 
     // Keep GSAP ScrollTrigger in sync with Lenis-managed scroll position.
     // Without this, pinned sections and scrub animations can stutter because
@@ -28,14 +34,20 @@ export function SmoothScrollProvider() {
     gsap.ticker.lagSmoothing(0);
 
     let resizeObserver: ResizeObserver | null = null;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    
     if (typeof document !== "undefined") {
       resizeObserver = new ResizeObserver(() => {
-        ScrollTrigger.refresh();
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 200);
       });
       resizeObserver.observe(document.body);
     }
 
     return () => {
+      clearTimeout(resizeTimeout);
       lenis.off("scroll", ScrollTrigger.update);
       gsap.ticker.remove(rafFn);
       lenis.destroy();

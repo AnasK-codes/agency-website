@@ -26,7 +26,7 @@ export function Process() {
   const leftColRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    let mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px)", () => {
       ScrollTrigger.create({
@@ -38,8 +38,8 @@ export function Process() {
       });
     });
 
-    const stepEls = gsap.utils.toArray(".process-step");
-    stepEls.forEach((step: any) => {
+    const stepEls = gsap.utils.toArray<HTMLElement>(".process-step");
+    stepEls.forEach((step) => {
       gsap.fromTo(
         step,
         { opacity: 0.15, xPercent: 8 },

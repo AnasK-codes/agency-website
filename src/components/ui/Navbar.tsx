@@ -2,9 +2,7 @@
 
 import { useRef } from "react";
 import { Sparkle } from "@phosphor-icons/react";
-import { MagneticButton } from "./MagneticButton";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
-import Link from "next/link";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 
 export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
@@ -18,7 +16,7 @@ export function Navbar() {
         y: -4,
         scale: 0.96,
         scrollTrigger: {
-          trigger: "body",
+          trigger: document.documentElement,
           start: "top -50",
           end: "top -200",
           scrub: 0.5,
@@ -30,11 +28,10 @@ export function Navbar() {
     mm.add("(max-width: 767px)", () => {
       gsap.to(navRef.current, {
         y: -2,
-        scale: 0.98,
         scrollTrigger: {
-          trigger: "body",
-          start: "top -30",
-          end: "top -120",
+          trigger: document.documentElement,
+          start: "top -20",
+          end: "top -100",
           scrub: 0.5,
         },
       });
@@ -44,6 +41,7 @@ export function Navbar() {
   return (
     <nav
       ref={navRef}
+      aria-label="Main Navigation"
       className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl mx-auto flex items-center justify-between px-6 py-4 rounded-full border border-white/10 bg-[#080807]/60 backdrop-blur-lg shadow-2xl"
     >
       {/* Logo Container */}
@@ -72,9 +70,16 @@ export function Navbar() {
             href={`#${label.toLowerCase()}`}
             onClick={(e) => {
               e.preventDefault();
-              const target = document.querySelector(`#${label.toLowerCase()}`);
-              if (target) {
-                target.scrollIntoView({ behavior: "auto" });
+              // Attempt to use window.Lenis if exposed globally, or fallback to native scrolling
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const lenisInstance = (window as any).lenis;
+              if (lenisInstance) {
+                lenisInstance.scrollTo(`#${label.toLowerCase()}`);
+              } else {
+                const target = document.querySelector(`#${label.toLowerCase()}`);
+                if (target) {
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
               }
             }}
             className="nav-link transition-colors duration-300 relative group"

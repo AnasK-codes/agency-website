@@ -9,12 +9,16 @@ export function ShaderAnimation() {
     camera: THREE.Camera
     scene: THREE.Scene
     renderer: THREE.WebGLRenderer
-    uniforms: any
+    uniforms: {
+      time: { type: string; value: number }
+      resolution: { type: string; value: THREE.Vector2 }
+    }
     animationId: number
   } | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
+    if (window.innerWidth < 768) return // H-06: Disabled on mobile
 
     const container = containerRef.current
 
@@ -109,16 +113,6 @@ export function ShaderAnimation() {
 
     onWindowResize()
     window.addEventListener("resize", onWindowResize, false)
-
-    // Animation loop (replaced by animateFrame below with IntersectionObserver)
-    const animate = () => {
-      const animationId = requestAnimationFrame(animate)
-      uniforms.time.value += 0.05
-      renderer.render(scene, camera)
-      if (sceneRef.current) {
-        sceneRef.current.animationId = animationId
-      }
-    }
 
     sceneRef.current = { camera, scene, renderer, uniforms, animationId: 0 }
 

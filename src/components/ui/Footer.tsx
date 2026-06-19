@@ -3,51 +3,10 @@
 import { useRef } from "react";
 import { EnvelopeSimple } from "@phosphor-icons/react";
 import { MagneticButton } from "./MagneticButton";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-
-    // Desktop: full parallax range
-    mm.add("(min-width: 768px)", () => {
-      gsap.fromTo(
-        textRef.current,
-        { y: 180 },
-        {
-          y: -60,
-          ease: "none",
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        }
-      );
-    });
-
-    // Mobile: subtler parallax
-    mm.add("(max-width: 767px)", () => {
-      gsap.fromTo(
-        textRef.current,
-        { y: 60 },
-        {
-          y: -20,
-          ease: "none",
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        }
-      );
-    });
-  }, { scope: footerRef });
 
   return (
     <footer
@@ -79,15 +38,18 @@ export function Footer() {
               [ Get In Touch ]
             </span>
           </div>
-          <h2
-            className="text-5xl md:text-8xl font-bold tracking-[-0.055em] leading-[0.86] mb-10"
-            style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}
-          >
-            Let's Talk.
-          </h2>
+          <div className="text-center md:text-left space-y-4 md:space-y-6">
+            <h3 className="text-4xl md:text-6xl font-bold leading-tight" style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}>
+              Let&apos;s create something <br className="hidden md:block" />
+              extraordinary.
+            </h3>
+            <p className="text-lg md:text-xl max-w-md mx-auto md:mx-0" style={{ color: "#A09890" }}>
+              Whether you need a cutting-edge web app or a complete digital transformation, we&apos;re here to help.
+            </p>
+          </div>
           <MagneticButton
             intensity={0.3}
-            className="px-8 py-4 gap-3 rounded-full text-lg font-semibold inline-flex items-center cursor-none"
+            className="px-8 py-4 gap-3 rounded-full text-lg font-semibold inline-flex items-center cursor-none mt-8"
             style={{
               fontFamily: "var(--font-space-grotesk)",
               background: "#FF4D00",

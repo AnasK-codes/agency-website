@@ -1,10 +1,9 @@
 "use client";
 
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 
 import { useRef } from "react";
-import { MagneticButton } from "./MagneticButton";
-import { ArrowRight, ArrowDown } from "@phosphor-icons/react";
+import { ArrowDown } from "@phosphor-icons/react";
 import Grainient from "@/components/Grainient";
 import { ShaderAnimation } from "./ShaderAnimation";
 import ShinyText from "./ShinyText";
@@ -137,18 +136,18 @@ export function Hero() {
           </div>
 
           {/* Headline */}
-          <div className="flex flex-col mb-10">
+          <h1 className="flex flex-col mb-10">
             <div className="overflow-hidden pb-4 pt-2">
-              <h1
-                className="hero-text-line text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
+              <span
+                className="hero-text-line block text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
                 style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}
               >
                 We Engineer
-              </h1>
+              </span>
             </div>
             <div className="overflow-hidden pb-4">
-              <h1
-                className="hero-text-line text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
+              <span
+                className="hero-text-line block text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
                 style={{ fontFamily: "var(--font-space-grotesk)" }}
               >
                 <ShinyText
@@ -162,9 +161,9 @@ export function Hero() {
                   yoyo={true}
                   pauseOnHover={false}
                 />
-              </h1>
+              </span>
             </div>
-          </div>
+          </h1>
 
           {/* Subtext */}
           <p
