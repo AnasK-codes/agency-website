@@ -58,7 +58,12 @@ function InfiniteRibbon({
         className="text-4xl md:text-6xl font-bold uppercase tracking-[-0.04em]"
         style={{
           fontFamily: "var(--font-space-grotesk)",
-          color: "#F5F0EB",
+          ...(i % 2 === 0
+            ? { color: "#F5F0EB" }
+            : {
+                color: "transparent",
+                WebkitTextStroke: "1px rgba(245, 240, 235, 0.8)",
+              }),
         }}
       >
         {text}
@@ -102,15 +107,15 @@ function InfiniteRibbon({
 
 export function Marquee() {
   const items = [
-    "Defy Generic",
-    "No Templates",
-    "Digital Excellence",
-    "Premium Aesthetics",
+    "Pixel Perfect",
+    "Award-Worthy",
+    "Custom Built",
+    "Made To Impress",
   ];
 
   return (
     <section
-      className="py-32 overflow-hidden border-y relative flex flex-col justify-center items-center w-full"
+      className="py-20 md:py-32 overflow-hidden border-y relative flex flex-col justify-center items-center w-full"
       style={{
         background: "#111110",
         borderColor: "rgba(255, 77, 0, 0.1)",
@@ -118,22 +123,21 @@ export function Marquee() {
     >
       <style>{ribbonAnimationStyles}</style>
       
-      {/* Front rotated ribbon */}
-      <InfiniteRibbon 
-        items={items} 
-        duration={35} 
-        rotation={3} 
-        className="absolute z-10 bg-[#111110] border-y border-[rgba(255,77,0,0.15)]" 
-      />
-      
-      {/* Back rotated ribbon (reversed) */}
-      <InfiniteRibbon 
-        items={items} 
-        duration={35} 
-        reverse={true} 
-        rotation={-3} 
-        className="absolute bg-[#111110] border-y border-[rgba(255,77,0,0.1)] opacity-50" 
-      />
+      {/* Rotated wrapper for parallel ribbons */}
+      <div className="relative w-full flex flex-col gap-6 transform -rotate-2">
+        <InfiniteRibbon 
+          items={items} 
+          duration={35} 
+          className="bg-[#111110] border-y border-[rgba(255,77,0,0.15)] shadow-[0_0_40px_rgba(0,0,0,0.5)]" 
+        />
+        
+        <InfiniteRibbon 
+          items={items} 
+          duration={35} 
+          reverse={true} 
+          className="bg-[#111110] border-y border-[rgba(255,77,0,0.1)] opacity-80" 
+        />
+      </div>
     </section>
   );
 }

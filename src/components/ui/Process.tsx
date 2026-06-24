@@ -6,18 +6,18 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 const steps = [
   {
     number: "01",
-    title: "Discovery & Architecture",
-    body: "We map the entire ecosystem before writing a single line of code or pushing a single pixel. We research the brand, the audience, and the technical constraints to architect a flawless foundation.",
+    title: "Discovery & Strategy",
+    body: "We immerse ourselves in your brand, your audience, and your goals. Before a single wireframe exists, we define a creative brief that ensures every design decision has a clear purpose and a measurable outcome.",
   },
   {
     number: "02",
-    title: "Design Engineering",
-    body: "Where aesthetics meet mathematics. We build robust, scalable applications using Next.js and Tailwind, transforming static wireframes into highly performant, responsive systems.",
+    title: "Design & Prototype",
+    body: "We craft high-fidelity designs that bring your brand to life — then animate them into interactive prototypes. You'll see, click, and feel your future website before a single line of production code is written.",
   },
   {
     number: "03",
-    title: "Choreography & Motion",
-    body: "The final layer of polish. We introduce GSAP scroll triggers and Framer Motion spring physics to make the interface feel tactile, fluid, and genuinely alive.",
+    title: "Build & Launch",
+    body: "We engineer your website with modern tooling: Next.js, GSAP, and Framer Motion. Every animation and interaction is finely tuned before we launch a site that loads beautifully and performs flawlessly.",
   },
 ];
 
@@ -64,7 +64,7 @@ export function Process() {
     >
       {/* Sticky left heading */}
       <div
-        className="w-full md:w-1/2 h-[50dvh] md:h-[100dvh] flex flex-col justify-center items-start"
+        className="w-full md:w-1/2 h-[50dvh] md:h-[100dvh] flex flex-col justify-center md:justify-start md:pt-[30dvh] items-start"
         ref={leftColRef}
       >
         <div className="flex items-center gap-3 mb-8">
@@ -86,15 +86,14 @@ export function Process() {
           className="mt-6 text-lg leading-[1.72] max-w-sm"
           style={{ color: "#A09890", fontFamily: "var(--font-dm-sans)" }}
         >
-          We break down complex problems into elegant mathematical and visual
-          solutions, ensuring every frame feels perfect.
+          Three deliberate stages, zero shortcuts. From the first brief to the final pixel, every step is designed to produce a website that genuinely sets you apart.
         </p>
       </div>
 
       {/* Scrolling steps */}
-      <div className="w-full md:w-1/2 flex flex-col gap-[45vh] md:pt-[50vh] pb-[20vh] md:pb-[50vh]">
-        {steps.map((step) => (
-          <div key={step.number} className="process-step flex flex-col gap-5">
+      <div className="w-full md:w-1/2 flex flex-col gap-[45dvh] md:pt-[30dvh] pb-[20dvh] md:pb-0">
+        {steps.map((step, index) => (
+          <div key={step.number} className={`process-step flex flex-col gap-5 ${index === steps.length - 1 ? "md:h-[70dvh]" : ""}`}>
             <span
               className="text-lg tracking-widest"
               style={{ fontFamily: "var(--font-ibm-plex-mono)", color: "#14B8A6" }}

@@ -46,8 +46,9 @@ export function CTA() {
         borderColor: "rgba(255, 77, 0, 0.15)",
       }}
     >
-      {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] rounded-full opacity-[0.03] blur-[120px] pointer-events-none" style={{ background: "#FF4D00" }} />
+      {/* Background ambient glows */}
+      <div className="absolute top-1/3 left-1/3 w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full opacity-[0.05] blur-[130px] pointer-events-none" style={{ background: "#FF4D00" }} />
+      <div className="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full opacity-[0.04] blur-[110px] pointer-events-none" style={{ background: "#14B8A6" }} />
 
       <div className="w-full max-w-4xl flex flex-col items-center text-center relative z-10">
         <h2
@@ -62,7 +63,7 @@ export function CTA() {
           className="cta-element text-lg md:text-xl max-w-2xl mb-16 leading-[1.6]"
           style={{ fontFamily: "var(--font-dm-sans)", color: "#A09890" }}
         >
-          Ready to defy the generic? Tell us about your vision, and let&apos;s engineer a digital experience that commands attention.
+          Have a project in mind? Tell us about your vision and let&apos;s design a website your audience won&apos;t be able to forget.
         </p>
 
         <div className="w-full flex flex-col gap-6 cta-element">

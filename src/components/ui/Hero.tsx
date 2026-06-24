@@ -8,6 +8,7 @@ import Grainient from "@/components/Grainient";
 import { ShaderAnimation } from "./ShaderAnimation";
 import ShinyText from "./ShinyText";
 import CircularText from "./CircularText";
+import { SplitText } from "./SplitText";
 
 export function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -142,7 +143,7 @@ export function Hero() {
                 className="hero-text-line block text-[clamp(3.5rem,9vw,9rem)] font-bold leading-none tracking-[-0.055em] pb-6"
                 style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}
               >
-                We Engineer
+                <SplitText text="We Engineer" delay={0.3} />
               </span>
             </div>
             <div className="overflow-hidden pb-4">

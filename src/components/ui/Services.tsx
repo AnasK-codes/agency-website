@@ -1,68 +1,41 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Sparkle, Palette, Code } from "@phosphor-icons/react";
 import { gsap, useGSAP } from "@/lib/gsapConfig";
-import Image from "next/image";
 
 const services = [
   {
     icon: Palette,
     number: "01",
-    title: "Aesthetic Direction",
-    body: "Establishing distinctive visual languages that reject templated norms. We craft bespoke brand identities that command attention.",
+    title: "Bespoke Web Design",
+    body: "Forget templates. Every layout, color, and interaction is crafted from scratch to reflect your brand's unique voice — and engineered to convert your ideal clients on first sight.",
     label: "UI/UX DESIGN",
     hoverBorderColor: "rgba(255, 77, 0, 0.5)",
-    image: "/service-1.png",
   },
   {
     icon: Code,
     number: "02",
-    title: "Design Engineering",
-    body: "Bridging the gap between static design and interactive reality. We write performant, robust code that brings motion to life.",
+    title: "High-Performance Development",
+    body: "We engineer your designs into lightning-fast, accessible web applications. Built on Next.js with pixel-perfect attention to Core Web Vitals — beautiful on every device, flawless on every screen size.",
     label: "FRONTEND DEV",
     hoverBorderColor: "rgba(20, 184, 166, 0.5)",
-    image: "/service-2.png",
   },
   {
     icon: Sparkle,
     number: "03",
-    title: "Motion & Interaction",
-    body: "Fluid, physics-based micro-interactions that make interfaces feel tactile, responsive, and genuinely premium.",
-    label: "CHOREOGRAPHY",
+    title: "Brand & Motion Design",
+    body: "A great website is more than screens — it's a feeling. We craft your visual identity, design system, and micro-interactions so every touchpoint feels cohesive, premium, and unmistakably alive.",
+    label: "BRAND + MOTION",
     hoverBorderColor: "rgba(255, 77, 0, 0.5)",
-    image: "/service-3.png",
   },
 ];
 
 export function Services() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const [activeService, setActiveService] = useState<typeof services[0] | null>(null);
-  const [hasHoverCapability] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return window.matchMedia("(hover: hover)").matches;
-    }
-    return true;
-  });
 
   useEffect(() => {
-
-    // H-02: Only attach mousemove on devices with a fine pointer
-    const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const container = containerRef.current;
-    if (!hasHover || !container) return;
-
-    const xTo = gsap.quickTo(imageWrapperRef.current, "x", { duration: 0.5, ease: "power3" });
-    const yTo = gsap.quickTo(imageWrapperRef.current, "y", { duration: 0.5, ease: "power3" });
-
-    const onMouseMove = (e: MouseEvent) => {
-      xTo(e.clientX);
-      yTo(e.clientY);
-    };
-
-    container.addEventListener("mousemove", onMouseMove, { passive: true });
-    return () => container.removeEventListener("mousemove", onMouseMove);
+    // ScrollTrigger will be used for revealing items.
   }, []);
 
   useGSAP(() => {
@@ -116,23 +89,13 @@ export function Services() {
           return (
             <div
               key={service.number}
-              className="service-item group relative pt-8 border-t cursor-none transition-all duration-500"
+              className="service-item group relative pt-8 border-t transition-all duration-500"
               style={{ borderColor: "rgba(255, 77, 0, 0.1)" }}
-              onMouseEnter={(e) => {
-                if (!hasHoverCapability) return;
-                setActiveService(service);
-                (e.currentTarget as HTMLElement).style.borderColor = service.hoverBorderColor;
-              }}
-              onMouseLeave={(e) => {
-                if (!hasHoverCapability) return;
-                setActiveService(null);
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 77, 0, 0.1)";
-              }}
             >
               <Icon
                 weight="duotone"
                 className="w-10 h-10 mb-6 transition-colors duration-500"
-                style={{ color: "#504840" }}
+                style={{ color: "rgba(255, 77, 0, 0.5)" }}
               />
               <h3
                 className="text-2xl font-bold mb-4 tracking-[-0.03em]"
@@ -157,27 +120,6 @@ export function Services() {
         })}
       </div>
 
-      {/* Floating hover image */}
-      <div
-        ref={imageWrapperRef}
-        className={`fixed top-0 left-0 w-72 h-[22rem] pointer-events-none z-40 rounded-2xl overflow-hidden -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-out hidden md:block ${
-          activeService ? "opacity-100 scale-100 rotate-2" : "opacity-0 scale-90 -rotate-2"
-        }`}
-        style={{
-          border: "1px solid rgba(255, 77, 0, 0.2)",
-          boxShadow: "0 20px 60px rgba(255, 77, 0, 0.16)",
-        }}
-      >
-        {activeService && (
-          <Image
-            src={activeService.image}
-            alt="Service preview"
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover"
-          />
-        )}
-      </div>
     </section>
   );
 }

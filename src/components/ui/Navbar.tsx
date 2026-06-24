@@ -1,11 +1,34 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Sparkle } from "@phosphor-icons/react";
 import { gsap, useGSAP } from "@/lib/gsapConfig";
+import { motion } from "framer-motion";
 
 export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the first intersecting entry and set it
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "-40% 0px -40% 0px",
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(() => {
     const mm = gsap.matchMedia();
@@ -64,7 +87,9 @@ export function Navbar() {
         className="hidden md:flex items-center justify-center gap-10 text-sm font-medium tracking-wide"
         style={{ color: "#A09890", fontFamily: "var(--font-dm-sans)" }}
       >
-        {(["Philosophy", "Work", "Services"] as const).map((label) => (
+        {(["Philosophy", "Work", "Services"] as const).map((label) => {
+          const isActive = activeSection === label.toLowerCase();
+          return (
           <a
             key={label}
             href={`#${label.toLowerCase()}`}
@@ -83,12 +108,37 @@ export function Navbar() {
               }
             }}
             className="nav-link transition-colors duration-300 relative group"
-            style={{ color: "#A09890" }}
+            style={{ color: isActive ? "#FF4D00" : "#A09890" }}
           >
-            {label}
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-[#FF4D00] transition-all duration-300 group-hover:w-full" />
+            <motion.div
+              initial="initial"
+              whileHover="hovered"
+              className="relative overflow-hidden inline-flex"
+            >
+              <motion.span
+                variants={{
+                  initial: { y: 0 },
+                  hovered: { y: "-100%" },
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="block"
+              >
+                {label}
+              </motion.span>
+              <motion.span
+                variants={{
+                  initial: { y: "100%" },
+                  hovered: { y: 0 },
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="absolute inset-0 block text-[#FF4D00]"
+              >
+                {label}
+              </motion.span>
+            </motion.div>
+            <span className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-[1px] bg-[#FF4D00] transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
           </a>
-        ))}
+        )})}
       </div>
 
       {/* Right spacer for centering */}

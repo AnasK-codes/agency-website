@@ -41,16 +41,16 @@ export function ShaderAnimation() {
       uniform vec2 resolution;
       uniform float time;
 
-      // Obsidian Ember palette colours
-      // c0 = ember orange, c1 = warm amber-gold, c2 = deep crimson
-      vec3 emberPalette(float t) {
-        vec3 c0 = vec3(1.0,  0.298, 0.0);   // #FF4D00
-        vec3 c1 = vec3(0.88, 0.42,  0.02);  // warm amber
-        vec3 c2 = vec3(0.48, 0.06,  0.0);   // deep ember red
-        // blend between the three based on the luminance value t
-        float s = clamp(t * 2.0, 0.0, 1.0);
-        float u = clamp(t * 2.0 - 1.0, 0.0, 1.0);
-        return mix(mix(c2, c0, s), c1, u * 0.5);
+      // Premium 4-stop palette: deep crimson → ember orange → warm amber → champagne
+      vec3 premiumPalette(float t) {
+        vec3 c0 = vec3(0.38, 0.04,  0.0);   // deep ember crimson
+        vec3 c1 = vec3(1.0,  0.298, 0.0);   // #FF4D00 ember orange
+        vec3 c2 = vec3(1.0,  0.62,  0.18);  // warm amber-gold
+        vec3 c3 = vec3(1.0,  0.88,  0.62);  // champagne / cream highlight
+        float s = clamp(t * 3.0, 0.0, 1.0);
+        float u = clamp(t * 3.0 - 1.0, 0.0, 1.0);
+        float v = clamp(t * 3.0 - 2.0, 0.0, 1.0);
+        return mix(mix(mix(c0, c1, s), c2, u), c3, v * 0.42);
       }
 
       void main(void) {
@@ -67,10 +67,10 @@ export function ShaderAnimation() {
                      + mod(uv.x + uv.y, 0.2));
         }
 
-        // Map luminance → ember palette
-        vec3 color = emberPalette(clamp(lum, 0.0, 1.0));
+        // Map luminance → premium palette
+        vec3 color = premiumPalette(clamp(lum, 0.0, 1.0));
 
-        gl_FragColor = vec4(color, clamp(lum * 1.8, 0.0, 1.0));
+        gl_FragColor = vec4(color, clamp(lum * 2.2, 0.0, 1.0));
       }
     `
 

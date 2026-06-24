@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { EnvelopeSimple } from "@phosphor-icons/react";
 import { MagneticButton } from "./MagneticButton";
+import { TextGenerateEffect } from "./TextGenerateEffect";
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -39,12 +40,14 @@ export function Footer() {
             </span>
           </div>
           <div className="text-center md:text-left space-y-4 md:space-y-6">
-            <h3 className="text-4xl md:text-6xl font-bold leading-tight" style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}>
-              Let&apos;s create something <br className="hidden md:block" />
-              extraordinary.
-            </h3>
+            <div style={{ fontFamily: "var(--font-space-grotesk)", color: "#F5F0EB" }}>
+              <TextGenerateEffect
+                words="Let's create something extraordinary."
+                className="text-4xl md:text-6xl leading-tight"
+              />
+            </div>
             <p className="text-lg md:text-xl max-w-md mx-auto md:mx-0" style={{ color: "#A09890" }}>
-              Whether you need a cutting-edge web app or a complete digital transformation, we&apos;re here to help.
+              Have a project in mind? Whether you need a bespoke website, a brand refresh, or a full digital transformation — we&apos;re ready to build something unforgettable.
             </p>
           </div>
           <MagneticButton
@@ -68,7 +71,7 @@ export function Footer() {
           style={{ fontFamily: "var(--font-ibm-plex-mono)", color: "#504840" }}
         >
           <span>© 2026 SICKN33 LLC.</span>
-          <span>All systems nominal.</span>
+          <span>Designing the unreasonable.</span>
           <div
             className="mt-4 w-12 h-[1px]"
             style={{ background: "rgba(255, 77, 0, 0.25)" }}
