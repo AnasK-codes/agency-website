@@ -17,10 +17,11 @@ export const SplitText = ({ text, className, delay = 0 }: SplitTextProps) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
+    const timer = setTimeout(() => setIsMobile(window.innerWidth < 768), 0);
     if (isInView) {
       controls.start("visible");
     }
+    return () => clearTimeout(timer);
   }, [isInView, controls]);
 
   const words = text.split(" ");

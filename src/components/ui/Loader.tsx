@@ -119,7 +119,7 @@ export function Loader() {
         className="absolute bottom-8 right-8 md:right-16 text-xs uppercase tracking-[0.3em]"
         style={{ fontFamily: "var(--font-ibm-plex-mono)", color: "#504840" }}
       >
-        SICKN33 Studio
+        Maven Studio
       </div>
     </div>
   );

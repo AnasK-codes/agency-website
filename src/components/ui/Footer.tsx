@@ -52,7 +52,10 @@ export function Footer() {
           </div>
           <MagneticButton
             intensity={0.3}
-            className="px-8 py-4 gap-3 rounded-full text-lg font-semibold inline-flex items-center cursor-none mt-8"
+            onClick={() => {
+              window.location.href = "mailto:mavenstudio.hello@gmail.com";
+            }}
+            className="group px-6 py-4 sm:px-8 sm:py-5 rounded-full text-sm sm:text-base md:text-lg font-bold inline-flex items-center justify-center cursor-none mt-8 max-w-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_50px_rgba(255,77,0,0.6)]"
             style={{
               fontFamily: "var(--font-space-grotesk)",
               background: "#FF4D00",
@@ -60,8 +63,8 @@ export function Footer() {
               boxShadow: "0 0 40px rgba(255, 77, 0, 0.45), 0 0 80px rgba(255, 77, 0, 0.12)",
             }}
           >
-            <EnvelopeSimple weight="bold" className="w-5 h-5" />
-            hello@sickn33.com
+            <EnvelopeSimple weight="bold" className="w-5 h-5 md:w-6 md:h-6 shrink-0 transition-transform duration-300 group-hover:-rotate-12" />
+            <span className="truncate tracking-wide">mavenstudio.hello@gmail.com</span>
           </MagneticButton>
         </div>
 
@@ -70,7 +73,7 @@ export function Footer() {
           className="flex flex-col items-start md:items-end gap-2 text-sm"
           style={{ fontFamily: "var(--font-ibm-plex-mono)", color: "#504840" }}
         >
-          <span>© 2026 SICKN33 LLC.</span>
+          <span>© 2026 Maven Studio LLC.</span>
           <span>Designing the unreasonable.</span>
           <div
             className="mt-4 w-12 h-[1px]"
@@ -82,13 +85,13 @@ export function Footer() {
       {/* Parallax background wordmark — clamped for ultrawide */}
       <div
         ref={textRef}
-        className="absolute top-[25%] left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none select-none text-[clamp(2.5rem,14vw,30rem)] font-bold tracking-[-0.055em]"
+        className="absolute top-[25%] left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none select-none text-[clamp(2rem,11vw,24rem)] font-bold tracking-[-0.055em]"
         style={{
           fontFamily: "var(--font-space-grotesk)",
           color: "rgba(255, 77, 0, 0.04)",
         }}
       >
-        SICKN33
+        MAVEN STUDIO
       </div>
     </footer>
   );

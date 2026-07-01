@@ -73,7 +73,7 @@ export function MagneticButton({ children, className, intensity = 0.4, style: ex
           }}
         />
       )}
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 inline-flex items-center justify-center gap-2 sm:gap-3 whitespace-nowrap">{children}</span>
     </motion.button>
   );
 }

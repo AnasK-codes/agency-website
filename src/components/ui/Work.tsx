@@ -9,22 +9,26 @@ const projects = [
   {
     title: "SkyPaints",
     category: "Web Application",
-    description: "A vibrant e-commerce platform for a premium paint brand, built with Next.js and a fully custom 3D color explorer.",
+    description:
+      "A vibrant e-commerce platform for a premium paint brand, built with Next.js and a fully custom 3D color explorer.",
     number: "01",
     image: "/skypaints.png",
     url: "https://sky-paints.vercel.app/",
   },
   {
-    title: "Luminary Studio",
+    title: "Aarogya One",
     category: "Brand Identity & Website",
-    description: "Complete visual identity and award-nominated website for a creative production studio — from wordmark to WebGL hero.",
+    description:
+      "A comprehensive health and wellness platform designed to connect users with healthcare providers and services.",
     number: "02",
-    image: "/work-2.png",
+    image: "/aarogya-one.png",
+    url: "https://aarogya-one-sigma.vercel.app/",
   },
   {
     title: "Meridian",
     category: "SaaS Product Design",
-    description: "End-to-end product design for a B2B analytics platform — from information architecture and design system to interactive prototype.",
+    description:
+      "End-to-end product design for a B2B analytics platform — from information architecture and design system to interactive prototype.",
     number: "03",
     image: "/work-3.png",
   },
@@ -136,10 +140,7 @@ export function Work() {
       </div>
 
       {/* Scroll container — horizontal on md+, vertical stack on mobile */}
-      <div
-        ref={containerRef}
-        className="flex flex-col md:flex-row flex-1"
-      >
+      <div ref={containerRef} className="flex flex-col md:flex-row flex-1">
         {projects.map((project, index) => {
           const content = (
             <>
@@ -199,7 +200,10 @@ export function Work() {
                   {project.description && (
                     <p
                       className="text-sm max-w-md mt-2 leading-[1.6]"
-                      style={{ color: "#504840", fontFamily: "var(--font-dm-sans)" }}
+                      style={{
+                        color: "#504840",
+                        fontFamily: "var(--font-dm-sans)",
+                      }}
                     >
                       {project.description}
                     </p>
@@ -255,4 +259,3 @@ export function Work() {
     </section>
   );
 }
-

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
-  const [activeSection, setActiveSection] = useState<string>("");
+  const [activeSection, setActiveSection] = useState<string>("home");
 
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
@@ -69,8 +69,22 @@ export function Navbar() {
     >
       {/* Logo Container */}
       <div className="flex-1 flex items-center">
-        <div
-          className="flex items-center gap-2 font-bold tracking-[-0.04em] text-lg"
+        <a
+          href="#home"
+          onClick={(e) => {
+            e.preventDefault();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const lenisInstance = (window as any).lenis;
+            if (lenisInstance) {
+              lenisInstance.scrollTo("#home");
+            } else {
+              const target = document.querySelector("#home");
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }}
+          className="flex items-center gap-2 font-bold tracking-[-0.04em] text-lg cursor-pointer hover:opacity-90 transition-opacity"
           style={{ color: "#F5F0EB", fontFamily: "var(--font-space-grotesk)" }}
         >
           <Sparkle
@@ -78,8 +92,8 @@ export function Navbar() {
             className="w-5 h-5"
             style={{ color: "#FF4D00" }}
           />
-          <span>SICKN33</span>
-        </div>
+          <span>MAVEN STUDIO</span>
+        </a>
       </div>
 
       {/* Nav links */}
@@ -87,7 +101,7 @@ export function Navbar() {
         className="hidden md:flex items-center justify-center gap-10 text-sm font-medium tracking-wide"
         style={{ color: "#A09890", fontFamily: "var(--font-dm-sans)" }}
       >
-        {(["Philosophy", "Work", "Services"] as const).map((label) => {
+        {(["Home", "Philosophy", "Work", "Services", "Pricing", "FAQ"] as const).map((label) => {
           const isActive = activeSection === label.toLowerCase();
           return (
           <a

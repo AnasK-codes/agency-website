@@ -69,6 +69,7 @@ export function Hero() {
 
   return (
     <section
+      id="home"
       ref={heroRef}
       className="relative min-h-[100dvh] w-full flex items-center justify-start pt-24 pb-12 px-6 md:px-16 lg:px-24 overflow-hidden border-b"
       style={{ borderColor: "rgba(255, 77, 0, 0.1)", background: "#080807" }}

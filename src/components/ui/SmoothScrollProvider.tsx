@@ -16,6 +16,7 @@ export function SmoothScrollProvider() {
       wheelMultiplier: 1.0,
       touchMultiplier: 1.2,
       infinite: false,
+      autoResize: true,
     });
     
     // Expose lenis instance to the window for programmatic scrolling in other components
@@ -29,6 +30,11 @@ export function SmoothScrollProvider() {
     // ScrollTrigger reads window.scrollY which Lenis updates asynchronously.
     lenis.on("scroll", ScrollTrigger.update);
 
+    const onRefresh = () => {
+      lenis.resize();
+    };
+    ScrollTrigger.addEventListener("refresh", onRefresh);
+
     const rafFn = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(rafFn);
     gsap.ticker.lagSmoothing(0);
@@ -41,6 +47,7 @@ export function SmoothScrollProvider() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
           ScrollTrigger.refresh();
+          lenis.resize();
         }, 200);
       });
       resizeObserver.observe(document.body);
@@ -49,6 +56,7 @@ export function SmoothScrollProvider() {
     return () => {
       clearTimeout(resizeTimeout);
       lenis.off("scroll", ScrollTrigger.update);
+      ScrollTrigger.removeEventListener("refresh", onRefresh);
       gsap.ticker.remove(rafFn);
       lenis.destroy();
       if (resizeObserver) resizeObserver.disconnect();

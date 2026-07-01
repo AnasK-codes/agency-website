@@ -26,7 +26,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SICKN33 — Design Engineering Studio",
+  title: "Maven Studio — Design Engineering Studio",
   description: "We engineer digital experiences that defy the generic. Advanced aesthetics, physics-based motion, and uncompromising performance.",
 };
 
